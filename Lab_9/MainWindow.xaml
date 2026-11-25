@@ -1,0 +1,228 @@
+﻿<Window x:Class="Lab_9.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Реєстр обладнання"
+        Height="820" Width="1100"
+        MinHeight="700" MinWidth="950"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF3F3"
+        FontFamily="Segoe UI"
+        FontSize="14">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#AD4148"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,9"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Foreground" Value="#813139"/>
+            <Setter Property="BorderBrush" Value="#D9A4A8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#62363A"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="140"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="5,0,5,12">
+            <TextBlock Text="Реєстр обладнання"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#96363D"/>
+            <TextBlock Text="Двійкове дерево пошуку інвентарних номерів"
+                       Foreground="#94666A"
+                       Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                Background="White"
+                CornerRadius="8"
+                Padding="10"
+                Margin="5">
+            <StackPanel>
+                <TextBlock Text="Інвентарні номери"
+                           Foreground="#813139"
+                           FontWeight="SemiBold"
+                           Margin="4"/>
+
+                <TextBox Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}"
+                         Height="34"
+                         Padding="7"
+                         Margin="4"
+                         BorderBrush="#D9A4A8"
+                         VerticalContentAlignment="Center"/>
+
+                <WrapPanel>
+                    <Button Content="Додати"
+                            Command="{Binding AddCommand}"/>
+
+                    <Button Content="Знайти"
+                            Command="{Binding FindCommand}"/>
+
+                    <Button Content="Видалити"
+                            Command="{Binding DeleteCommand}"/>
+
+                    <Button Content="Демонстраційний набір"
+                            Command="{Binding DemoCommand}"/>
+
+                    <Button Content="Очистити"
+                            Command="{Binding ClearCommand}"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <UniformGrid Grid.Row="2" Columns="4" Margin="0,5">
+            <Border Background="#F5DADB"
+                    CornerRadius="7"
+                    Margin="5"
+                    Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Кількість вузлів"
+                               Foreground="#813139"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Count}"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="#96363D"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#F5DADB"
+                    CornerRadius="7"
+                    Margin="5"
+                    Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Висота дерева"
+                               Foreground="#813139"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Height}"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="#96363D"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#F5DADB"
+                    CornerRadius="7"
+                    Margin="5"
+                    Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Мінімум"
+                               Foreground="#813139"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Min}"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="#96363D"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <Border Background="#F5DADB"
+                    CornerRadius="7"
+                    Margin="5"
+                    Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Максимум"
+                               Foreground="#813139"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Max}"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="#96363D"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <GroupBox Grid.Row="3" Header="Візуалізація дерева">
+            <ScrollViewer x:Name="TreeScroll"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          Background="White">
+                <Canvas x:Name="TreeCanvas"
+                        Background="White"
+                        MinHeight="160"/>
+            </ScrollViewer>
+        </GroupBox>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0"
+                      Header="Прямий обхід (Preorder)">
+                <ListBox ItemsSource="{Binding Preorder}"/>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1"
+                      Header="Симетричний обхід (Inorder)">
+                <ListBox ItemsSource="{Binding Inorder}"/>
+            </GroupBox>
+
+            <GroupBox Grid.Column="2"
+                      Header="Зворотний обхід (Postorder)">
+                <ListBox ItemsSource="{Binding Postorder}"/>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0"
+                      Header="Результат операції">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding Status}"
+                               TextWrapping="Wrap"
+                               Foreground="#62363A"
+                               Margin="5"/>
+                </ScrollViewer>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1"
+                      Header="Завдання підвищеного рівня">
+                <DockPanel>
+                    <Button DockPanel.Dock="Top"
+                            Content="Порівняти висоту дерев"
+                            Command="{Binding CompareCommand}"
+                            Margin="0,0,0,5"/>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding Comparison}"
+                                   TextWrapping="Wrap"
+                                   Foreground="#62363A"/>
+                    </ScrollViewer>
+                </DockPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>
